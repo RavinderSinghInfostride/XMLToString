@@ -1,6 +1,6 @@
 public class PhoneDetails {
     private String name;
-    private int displaySize;
+    private String displaySize;
     private String memory;
 
     public String getName() {
@@ -11,11 +11,11 @@ public class PhoneDetails {
         this.name = name;
     }
 
-    public int getDisplaySize() {
+    public String getDisplaySize() {
         return displaySize;
     }
 
-    public void setDisplaySize(int displaySize) {
+    public void setDisplaySize(String displaySize) {
         this.displaySize = displaySize;
     }
 

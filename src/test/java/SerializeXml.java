@@ -1,55 +1,20 @@
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import org.testng.annotations.Test;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import static org.testng.AssertJUnit.assertEquals;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 public class SerializeXml {
-
-    private static final String XML = "<phone>\n" +
-            "    <PhoneDetails>\n" +
-            "        <name>iPhone</name>\n" +
-            "        <displaySize>6.2</displaySize>\n" +
-            "        <memory>3/64 GB</memory>\n" +
-            "    </PhoneDetails>\n" +
-            "    <PhoneDetails>\n" +
-            "        <name>iPhone</name>\n" +
-            "        <displaySize>6.2</displaySize>\n" +
-            "        <memory>3/64 GB</memory>\n" +
-            "    </PhoneDetails>\n" +
-            "    <PhoneDetails>\n" +
-            "        <name>iPhone</name>\n" +
-            "        <displaySize>6.2</displaySize>\n" +
-            "        <memory>3/64 GB</memory>\n" +
-            "    </PhoneDetails>\n" +
-            "</phone>";
-    @Test(priority = 0)
-    public void serializePhone() throws IOException {
+    @Test
+    public void XmlToString() throws IOException {
         XmlMapper xmlMapper = new XmlMapper();
-        phone phoneObject =  xmlMapper.readValue(XML, phone.class);
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        xmlMapper.writeValue(byteArrayOutputStream, phoneObject);
-        assertEquals(XML, byteArrayOutputStream.toString());
+        String readContent = new String(Files.readAllBytes(Paths.get("Data.xml")));
+        PhoneDetails deserializedData = xmlMapper.readValue(readContent, PhoneDetails.class);
+        System.out.println("Deserialized data: ");
+        System.out.println("\tName: " + deserializedData.getName());
+        System.out.println("\tMemory: " + deserializedData.getMemory());
+        System.out.println("\tDisplay Size: " + deserializedData.getDisplaySize());
     }
-
-    @Test(priority = 1)
-    public void serializePhoneDetails() throws JsonProcessingException {
-        XmlMapper xmlMapper = new XmlMapper();
-        phone value = xmlMapper.readValue(XML, phone.class);
-        assertEquals("Name", value.getPhoneDetails().get(0).getName());
-        assertEquals("Memory", value.getPhoneDetails().get(1).getMemory());
-        assertEquals("DisplaySize", value.getPhoneDetails().get(2).getDisplaySize());
-    }
-
-
-//        String readContent = new String(Files.readAllBytes(Paths.get("Data.xml")));
-//        phone deserializedData = xmlMapper.readValue(readContent, phone.class);
-//        System.out.println("Deserialized data: ");
-//        System.out.println("\tName: " + deserializedData.getPhoneDetails());
-//        System.out.println("\tMemory: " + deserializedData.getMemory());
-//        System.out.println("\tDisplay Size: " + deserializedData.getDisplaySize());
-
 
 //        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 //        try {
